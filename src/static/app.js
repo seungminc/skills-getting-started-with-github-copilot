@@ -28,26 +28,30 @@ document.addEventListener("DOMContentLoaded", () => {
           <p><strong>Availability:</strong> ${spotsLeft} spots left</p>
           <div class="participants-section">
             <h5>Participants</h5>
-            <ul>
-              ${details.participants
-                .map(
-                  (participant) => `
-                    <li>
-                      <span>${participant}</span>
-                      <button
-                        class="unregister-button"
-                        type="button"
-                        aria-label="Unregister ${participant} from ${name}"
-                        title="Unregister participant"
-                        data-activity="${name}"
-                        data-email="${participant}"
-                      >&#128465;</button>
-                    </li>`
-                )
-                .join("")}
-            </ul>
+            <ul></ul>
           </div>
         `;
+
+        const participantsList = activityCard.querySelector(".participants-section ul");
+        details.participants.forEach((participant) => {
+          const participantItem = document.createElement("li");
+          const participantLabel = document.createElement("span");
+          const unregisterButton = document.createElement("button");
+
+          participantLabel.textContent = participant;
+
+          unregisterButton.className = "unregister-button";
+          unregisterButton.type = "button";
+          unregisterButton.ariaLabel = `Unregister ${participant} from ${name}`;
+          unregisterButton.title = "Unregister participant";
+          unregisterButton.dataset.activity = name;
+          unregisterButton.dataset.email = participant;
+          unregisterButton.innerHTML = "&#128465;";
+
+          participantItem.appendChild(participantLabel);
+          participantItem.appendChild(unregisterButton);
+          participantsList.appendChild(participantItem);
+        });
 
         activitiesList.appendChild(activityCard);
 
